@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="Edit, preview, and save a complete HTML file in your browser.">
+  <title>HTML Playground — LonGanancial</title>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/playground.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div>
+      <h1>HTML Playground</h1>
+    </div>
+    <div class="actions">
+      <button class="action download-trigger" id="downloadTrigger" type="button" aria-expanded="false" aria-haspopup="menu" aria-controls="downloadMenu" title="Download HTML"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v13m0 0 5-5m-5 5-5-5M4 17v3h16v-3"/></svg><span class="download-label">Download</span><svg class="download-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+    </div>
+    <input id="fileInput" type="file" accept=".html,.htm,text/html" multiple hidden>
+  </header>
+  <main class="app-main" id="appMain" data-sidebar-open="false">
+    <button class="sidebar-backdrop" id="sidebarBackdrop" type="button" aria-label="Close file explorer" hidden></button>
+    <aside class="file-sidebar" id="fileSidebar" aria-label="File explorer">
+      <div class="sidebar-heading">
+        <span>Explorer</span>
+        <button class="sidebar-close" id="sidebarClose" type="button" title="Hide file explorer" aria-label="Hide file explorer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <nav class="examples-menu" id="examplesMenu" aria-label="Sample and working HTML files"></nav>
+      <div class="sidebar-footer">
+        <button class="sidebar-add" id="newHtmlButton" type="button" title="Create new blank HTML"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M12 11v7m-3.5-3.5h7"/></svg><span>New HTML</span></button>
+        <button class="sidebar-add" id="uploadHtmlButton" type="button" title="Upload HTML files"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Upload HTML</span></button>
+        <span class="sidebar-storage" id="sidebarStorageStatus">Files stay in this browser</span>
+      </div>
+    </aside>
+    <div class="work-area">
+    <div class="mobile-toolbar">
+      <button class="sidebar-toggle mobile-sidebar-toggle" id="mobileSidebarToggle" type="button" aria-expanded="false" aria-controls="fileSidebar" aria-label="Show file explorer" title="Toggle file explorer · Ctrl + B">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+      </button>
+      <div class="mobile-tabs" role="tablist" aria-label="Workspace view">
+        <button id="editorTab" type="button" role="tab" aria-selected="true" aria-controls="editorPanel">Editor</button>
+        <button id="previewTab" type="button" role="tab" aria-selected="false" aria-controls="previewPanel">Preview</button>
+      </div>
+    </div>
+    <div class="workspace" id="workspace" data-view="editor">
+      <section class="panel editor-panel" id="editorPanel" data-editor-theme="dark" aria-labelledby="editorTitle">
+        <div class="panel-heading">
+          <div class="editor-heading-title">
+            <button class="sidebar-toggle" id="examplesTrigger" type="button" aria-expanded="false" aria-controls="fileSidebar" aria-label="Show file explorer" title="Toggle file explorer · Ctrl + B">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+            </button>
+            <span class="panel-title" id="editorTitle">Editor</span>
+          </div>
+          <div class="editor-heading-actions">
+            <span class="panel-detail" id="filename">playground.html</span>
+            <button class="format-toggle" id="formatToggle" type="button" aria-label="Format HTML with Prettier" aria-keyshortcuts="Alt+Shift+F" title="Format HTML · Shift + Alt + F">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4M9 8h6M9 12h8M9 16h6"/></svg>
+            </button>
+            <button class="wrap-toggle" id="wrapToggle" type="button" aria-pressed="false" aria-label="Enable word wrap" title="Enable word wrap">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 10h12a4 4 0 0 1 0 8h-5m0 0 3-3m-3 3 3 3M4 14h4M4 18h4"/></svg>
+            </button>
+            <button class="theme-toggle" id="editorThemeToggle" type="button" aria-label="Switch editor to light theme" title="Switch editor to light theme">
+              <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+              <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 14.1A9 9 0 0 1 9.9 3.2 9 9 0 1 0 20.8 14.1Z"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="editor-wrap is-loading" id="editorWrap" aria-busy="true">
+          <div class="editor-loading" role="status"><div class="editor-loading-inner"><span class="editor-loading-spinner" aria-hidden="true"></span><span>Loading editor</span></div></div>
+          <div id="cmHost" class="cm-host" aria-label="HTML code editor"></div>
+          <div class="fallback-editor">
+            <pre class="line-numbers" id="lineNumbers" aria-hidden="true"></pre>
+            <pre class="code-highlight" id="highlight" aria-hidden="true"></pre>
+            <textarea class="code-input" id="editor" aria-label="HTML code editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off"></textarea>
+          </div>
+        </div>
+        <div class="editor-foot"><div class="editor-foot-left"><span id="linesLabel">1 line</span><span class="local-save-status" id="saveStatus" role="status" aria-live="polite">Checking storage…</span></div><span title="Click arrows beside line numbers to fold or unfold blocks">HTML</span></div>
+      </section>
+      <div class="splitter" id="splitter" role="separator" aria-label="Resize panels" aria-orientation="vertical" aria-valuemin="25" aria-valuemax="75" aria-valuenow="50" tabindex="0"></div>
+      <section class="panel preview-panel" id="previewPanel" aria-labelledby="previewTitle">
+        <div class="panel-heading preview-heading">
+          <div class="preview-heading-info">
+            <span class="panel-title" id="previewTitle">Preview</span>
+          </div>
+          <div class="preview-controls">
+            <button class="inspect-toggle" id="inspectToggle" type="button" aria-pressed="false" aria-label="Inspect HTML in the preview and editor" title="Inspect preview and editor (off)">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5 18.5 12l-6.1 1.3L9.5 20Z"/><path d="m12.4 13.3 3 5"/></svg><span>Inspect</span>
+            </button>
+            <span class="preview-controls-divider" aria-hidden="true"></span>
+            <div class="preset-control">
+              <button class="preset-trigger" id="presetTrigger" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="presetMenu" title="Choose preview dimensions">
+                <svg class="preset-monitor-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="13" rx="2"></rect><path d="M9 21h6M12 17.5V21"></path></svg>
+                <span class="preset-trigger-label" id="presetTriggerLabel">Fit</span><span class="preset-trigger-zoom" id="presetTriggerZoom">100%</span><span class="preset-chevron" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-surface" id="previewSurface">
+          <div class="preview-canvas" id="viewportCanvas">
+            <div class="viewport-frame" id="viewportFrame">
+              <div class="viewport-document" id="viewportDocument">
+                <iframe id="preview" title="HTML preview" sandbox="allow-scripts allow-forms allow-modals" referrerpolicy="no-referrer"></iframe>
+              </div>
+              <button class="viewport-handle" data-resize="left" type="button" aria-label="Resize preview width from left" title="Drag to resize width"></button>
+              <button class="viewport-handle" data-resize="right" type="button" aria-label="Resize preview width from right" title="Drag to resize width"></button>
+              <button class="viewport-handle" data-resize="bottom" type="button" aria-label="Resize preview height" title="Drag to resize height"></button>
+              <button class="viewport-handle" data-resize="bottom-left" type="button" aria-label="Resize preview width and height" title="Drag to resize width and height"></button>
+              <button class="viewport-handle" data-resize="bottom-right" type="button" aria-label="Resize preview width and height" title="Drag to resize width and height"></button>
+            </div>
+          </div>
+          <div class="inspect-details" id="inspectDetails" role="status" aria-live="polite" hidden>
+            <div class="inspect-details-head"><code id="inspectDetailsTag"></code><span class="inspect-details-size" id="inspectDetailsSize"></span></div>
+            <div class="inspect-detail-row" id="inspectRowMargin"><span class="inspect-detail-key"><span class="inspect-detail-dot margin"></span>Margin</span><span class="inspect-detail-value" id="inspectDetailsMargin"></span></div>
+            <div class="inspect-detail-row" id="inspectRowBorder"><span class="inspect-detail-key"><span class="inspect-detail-dot border"></span>Border</span><span class="inspect-detail-value" id="inspectDetailsBorder"></span></div>
+            <div class="inspect-detail-row" id="inspectRowPadding"><span class="inspect-detail-key"><span class="inspect-detail-dot padding"></span>Padding</span><span class="inspect-detail-value" id="inspectDetailsPadding"></span></div>
+            <div class="inspect-detail-row" id="inspectRowRadius"><span class="inspect-detail-key"><span class="inspect-detail-dot radius"></span>Radius</span><span class="inspect-detail-value" id="inspectDetailsRadius"></span></div>
+            <div class="inspect-details-caption" id="inspectDetailsCaption">Top · right · bottom · left</div>
+            <div class="inspect-typography" id="inspectTypography" hidden>
+              <div class="inspect-type-title">Typography</div>
+              <div class="inspect-type-line"><span class="inspect-type-family" id="inspectFontFamily"></span><span class="inspect-type-meta" id="inspectFontMeta"></span></div>
+              <div class="inspect-type-line"><span id="inspectLineHeight"></span><span class="inspect-type-meta inspect-type-color"><span class="inspect-type-swatch" id="inspectColorSwatch"></span><span id="inspectTextColor"></span></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    </div>
+  </main>
+  <footer class="footer">by <a href="https://longanancial.com">LonGanancial</a></footer>
+</div>
+<div class="viewport-drag-layer" id="viewportDragLayer" hidden aria-hidden="true"></div>
+<div class="file-actions-menu" id="fileActionsMenu" role="menu" aria-label="File actions" hidden></div>
+<div class="download-menu" id="downloadMenu" role="menu" aria-label="Download options" hidden></div>
+<div class="preset-menu" id="presetMenu" role="menu" aria-label="Preview dimensions" hidden></div>
+<form class="dimension-popover" id="dimensionPopover" role="dialog" aria-labelledby="dimensionTitle" hidden novalidate>
+  <h2 id="dimensionTitle">Custom dimension</h2>
+  <div class="dimension-field"><label for="dimensionName">Name</label><input id="dimensionName" type="text" maxlength="32" placeholder="My desktop" required autocomplete="off"></div>
+  <div class="dimension-pair">
+    <div class="dimension-field"><label for="dimensionWidth">Width (px)</label><input id="dimensionWidth" type="number" min="240" max="1920" step="1" required inputmode="numeric"></div>
+    <div class="dimension-field"><label for="dimensionHeight">Height (px)</label><input id="dimensionHeight" type="number" min="280" max="1600" step="1" required inputmode="numeric"></div>
+  </div>
+  <p class="dimension-error" id="dimensionError" role="alert"></p>
+  <div class="dimension-actions"><button type="button" id="dimensionCancel">Cancel</button><button type="submit" class="dimension-save">Save</button></div>
+</form>
+<div class="drop-overlay" id="dropOverlay" aria-hidden="true">
+  <div class="drop-target"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M4 17v3h16v-3"/></svg><strong>Drop HTML files to upload</strong><span>Anywhere on this page</span></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="confirmDialog" aria-labelledby="confirmTitle">
+  <h2 id="confirmTitle">Replace your changes?</h2>
+  <p id="confirmDescription">You have unsaved edits. Opening another file will replace them.</p>
+  <div class="dialog-actions"><button type="button" id="cancelReplace">Cancel</button><button type="button" id="confirmReplace" class="danger">Open file</button></div>
+</dialog>
+  <div id="colorPopover" class="color-popover" role="dialog" aria-label="Edit CSS color" hidden>
+    <div class="color-picker-top">
+      <div id="colorSV" class="color-sv" role="slider" tabindex="0" aria-label="Color saturation and brightness" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+        <div class="color-sv-handle"></div>
+      </div>
+      <input id="colorHue" class="color-hue" type="range" min="0" max="360" value="0" aria-label="Hue">
+    </div>
+    <div class="color-picker-bottom">
+      <div id="colorPickerPreview" class="color-picker-preview" aria-hidden="true"></div>
+      <input id="colorPickerHex" class="color-picker-hex" type="text" maxlength="7" aria-label="Hex color" spellcheck="false" autocomplete="off">
+    </div>
+    <div class="color-picker-label">Edit color · Changes update the preview</div>
+  </div>
+
+<script type="module" src="js/main.js"></script>
+
+</body>
+</html>
